@@ -1,20 +1,22 @@
 var pages = [
-	{"id" : "pageChicken", "title" : "Chicken",
+	{"id" : "pageChicken", "title" : "Chicken", "icon" : "img/chicken/chicken-growth.jpg",
 		"pics" : [ 
 			{ "src" : "img/chicken/chicken-growth.jpg", "detailsText" : "Little chick grows fast" },
 			{ "src" : "img/chicken/battery-cages.jpg", "detailsText" : "Battery cage is hell" }
 		]
 	},
-	{"id" : "pageCow","title" : "Cow",
+	{"id" : "pageCow","title" : "Cow", "icon" : "img/chicken/battery-cages.jpg",
+		"pics" : [
+			{ "src" : "img/cows/pasture-cow.jpg", "detailsText" : "Cow in nature" }
+		]
+	}, 
+	{"id" : "pagePig","title" : "pig", "icon" : "img/chicken/chicken-growth.jpg",
 		"pics" : []
 	}, 
-	{"id" : "pagePig","title" : "pig",
-		"pics" : []
-	}, 
-	{"id" : "pageEnv","title" : "Environment",
+	{"id" : "pageEnv","title" : "Environment", "icon" : "img/chicken/battery-cages.jpg",
 		"pics" : []
 	},
-	{"id" : "pageHealth","title" : "Health",
+	{"id" : "pageHealth","title" : "Health", "icon" : "img/chicken/chicken-growth.jpg",
 		"pics" : []
 	}  
 ];
@@ -56,7 +58,8 @@ function showMainPage( urlObj, options, e ) {
 	if ( !mainCategoriesInited ){
 		$.each( pages, function(ind, page){
 			//link in main page
-			$( "#mainButtonGroup" ).append('<a href="#' + page.id + '" class="ui-btn">' + page.title + '</a>');
+			//$( "#mainButtonGroup" ).append('<a href="#' + page.id + '" class="ui-btn">' + page.title + '</a>');
+			$( "#mainButtonGroup" ).append('<div class="box"><div class="boxInner"><a href="#' + page.id + '" class="ui-btn main-page-icons" ><img src="' + page.icon + '"/></a></div></div>');
 		});
 		mainCategoriesInited = true;
 	}
@@ -228,4 +231,3 @@ function nextInd(arr, i){
 function prevInd(arr, i){
 	return i == 0 ? arr.length-1 : i-1;
 }
-
