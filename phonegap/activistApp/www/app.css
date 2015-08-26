@@ -1,0 +1,8 @@
+.full-width {
+	margin:auto;
+	width: 100%;
+}
+#mainButtonGroup a.ui-btn{
+ height: 100px;
+ width: 300px;
+}
