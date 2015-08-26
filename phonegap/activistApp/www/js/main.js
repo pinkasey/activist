@@ -19,7 +19,7 @@ var pages = [
 	}  
 ];
 
-var inited_mainButtonGroup = false;
+var mainCategoriesInited = false;
 
 $.each( pages, function(i, page){
 	page["next"] = pages[ nextInd(pages, i) ];
@@ -30,11 +30,9 @@ $.each( pages, function(i, page){
 $(document).bind( "pagebeforechange", function( e, data ) {
 
 	if ( data.toPage.attr != undefined && data.toPage.attr("id") == "pageMain" ){
-		if ( !inited_mainButtonGroup ){
-			var u = $.mobile.path.parseUrl( data.toPage )
-			showMainPage( u, data.options, e )
-			return;
-		}
+		var u = $.mobile.path.parseUrl( data.toPage )
+		showMainPage( u, data.options, e )
+		return;
 	}
 
 	// We only want to handle changePage() calls where the caller is
@@ -55,15 +53,18 @@ $(document).bind( "pagebeforechange", function( e, data ) {
 });
 
 function showMainPage( urlObj, options, e ) {
-	inited_mainButtonGroup = true;
-	$.each( pages, function(ind, page){
-		//link in main page
-		$( "#mainButtonGroup" ).append('<a href="#' + page.id + '" class="ui-btn">' + page.title + '</a>');
-	});
-	$.mobile.changePage( "#pageMain", options );
+	if ( !mainCategoriesInited ){
+		$.each( pages, function(ind, page){
+			//link in main page
+			$( "#mainButtonGroup" ).append('<a href="#' + page.id + '" class="ui-btn">' + page.title + '</a>');
+		});
+		mainCategoriesInited = true;
+	}
+
+	//$.mobile.changePage( "#pageMain", options );
 	// Make sure to tell changePage() we've handled this call so it doesn't
 	// have to do anything.		
-	e.preventDefault();
+	//e.preventDefault();
 }
 
 function showCategory( urlObj, options, e ) {
@@ -77,7 +78,7 @@ function showCategory( urlObj, options, e ) {
 		// content into is specified in the hash before the '?'.
 		//pageSelector = urlObj.hash.replace( /\?.*$/, "" );
 
-	if ( page ) {
+	if ( page && $("#"+pageId).length == 0  ) {
 		$('body').append('<div data-role="page" id="'+pageId+'"></div>');
 		var pageElem = $('#'+ page.id);
 		
@@ -89,7 +90,7 @@ function showCategory( urlObj, options, e ) {
 		//var ul = navBar.children(0).children(0);
 		ul.append( $('<li></li>')).append( $('<a href="#'+page.prev.id+'" class="ui-btn-icon-left ui-icon-carat-l">'+page.prev.title+'</a>') );
 		ul.append( $('<li></li>')).append( $('<a href="#" class="ui-btn-icon-left ui-icon-search">Search</a>') );
-		ul.append( $('<li></li>')).append( $('<a href="#'+page.next.id+'" class="ui-btn-icon-right ui-icon-carat-r">'+page.prev.title+'</a>') );
+		ul.append( $('<li></li>')).append( $('<a href="#'+page.next.id+'" class="ui-btn-icon-right ui-icon-carat-r">'+page.next.title+'</a>') );
 		
 		//var contentElem = pageElem.children(0);
 		var contentElem = $('<div data-role="main" class="ui-content"></div>');
@@ -104,11 +105,11 @@ function showCategory( urlObj, options, e ) {
 		initSwipePages();
 		
 		options.dataUrl = urlObj.href;
-		$.mobile.changePage( pageElem, options );
+		//$.mobile.changePage( pageElem, options );
 				
 		// Make sure to tell changePage() we've handled this call so it doesn't
 		// have to do anything.		
-		e.preventDefault();
+		//e.preventDefault();
 		/*
 		// Get the page we are going to dump our content into.		
 		var pageElem = $( pageSelector ),
