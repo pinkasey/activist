@@ -59,7 +59,7 @@ function showMainPage( urlObj, options, e ) {
 		$.each( pages, function(ind, page){
 			//link in main page
 			//$( "#mainButtonGroup" ).append('<a href="#' + page.id + '" class="ui-btn">' + page.title + '</a>');
-			$( "#mainButtonGroup" ).append('<div class="box"><div class="boxInner"><a href="#' + page.id + '" class="ui-btn main-page-icons" ><img src="' + page.icon + '"/></a></div></div>');
+			$( "#mainButtonGroup" ).append('<div class="main-category-image"><div class="boxInner"><a href="#' + page.id + '" class="ui-btn main-page-icons" ><img src="' + page.icon + '"/></a></div></div>');
 		});
 		mainCategoriesInited = true;
 	}
@@ -92,6 +92,7 @@ function showCategory( urlObj, options, e ) {
 		navbar.append(ul);
 		//var ul = navBar.children(0).children(0);
 		ul.append( $('<li></li>')).append( $('<a href="#'+page.prev.id+'" class="ui-btn-icon-left ui-icon-carat-l">'+page.prev.title+'</a>') );
+		ul.append( $('<li></li>')).append( $('<a href="index.html" class="ui-btn ui-icon-home ui-btn-icon-left">Home</a>') );	
 		ul.append( $('<li></li>')).append( $('<a href="#" class="ui-btn-icon-left ui-icon-search">Search</a>') );
 		ul.append( $('<li></li>')).append( $('<a href="#'+page.next.id+'" class="ui-btn-icon-right ui-icon-carat-r">'+page.next.title+'</a>') );
 		
@@ -99,7 +100,7 @@ function showCategory( urlObj, options, e ) {
 		var contentElem = $('<div data-role="main" class="ui-content"></div>');
 		for(var i=0; i<page.pics.length; i++ ){
 			var pic = page.pics[i];
-			contentElem.append('<img src="'+pic.src+'" class="full-width"/>');
+			contentElem.append('<img src="'+pic.src+'" class="content-item"/>');
 		}
 		
 		pageElem.append(header);
