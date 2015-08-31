@@ -1,0 +1,3 @@
+[submodule "phonegap/activistApp/.\\imgcache"]
+	path = phonegap/activistApp/.\\imgcache
+	url = https://github.com/chrisben/imgcache.js.git
