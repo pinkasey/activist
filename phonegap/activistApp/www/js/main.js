@@ -1,22 +1,22 @@
 var pages = [
-	{"id" : "pageChicken", "title" : "Chicken", "icon" : "img/chicken/chicken-growth.jpg",
+	{"id" : "pageChicken", "title" : "Chicken", "icon" : "img/chicken/chicken-eating-grass.jpg",
 		"pics" : [ 
 			{ "src" : "img/chicken/chicken-growth.jpg", "detailsText" : "Little chick grows fast" },
-			{ "src" : "img/chicken/battery-cages.jpg", "detailsText" : "Battery cage is hell" }
+			{ "src" : "img/chicken/battery-cages.jpg", "detailsText" : "Battery cages are hell" }
 		]
 	},
-	{"id" : "pageCow","title" : "Cow", "icon" : "img/chicken/battery-cages.jpg",
+	{"id" : "pageCow","title" : "Cow", "icon" : "img/cow/pasture-cow.jpg",
 		"pics" : [
-			{ "src" : "img/cows/pasture-cow.jpg", "detailsText" : "Cow in nature" }
+			{ "src" : "img/cow/pasture-cow.jpg", "detailsText" : "Cow in nature" }
 		]
 	}, 
-	{"id" : "pagePig","title" : "pig", "icon" : "img/chicken/chicken-growth.jpg",
+	{"id" : "pagePig","title" : "pig", "icon" : "img/pig/pig-meadow.jpg",
 		"pics" : []
 	}, 
-	{"id" : "pageEnv","title" : "Environment", "icon" : "img/chicken/battery-cages.jpg",
+	{"id" : "pageEnv","title" : "Environment", "icon" : "img/env/sick-earth.jpg",
 		"pics" : []
 	},
-	{"id" : "pageHealth","title" : "Health", "icon" : "img/chicken/chicken-growth.jpg",
+	{"id" : "pageHealth","title" : "Health", "icon" : "img/health/veg-heart.jpg",
 		"pics" : []
 	}  
 ];
