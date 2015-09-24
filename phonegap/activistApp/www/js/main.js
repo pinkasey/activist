@@ -2,6 +2,7 @@ var pages = [
 	{"id" : "pageChicken", "title" : "Chicken", "icon" : "img/chicken/chicken-eating-grass.jpg",
 		"pics" : [ 
 			{ "src" : "img/chicken/chicken-growth.jpg", "detailsText" : "Little chick grows fast" },
+			{ "src" : "badddddddImg.jpg", "detailsText" : "Little chick grows fast" },
 			{ "src" : "img/chicken/battery-cages.jpg", "detailsText" : "Battery cages are hell" }
 		]
 	},
@@ -100,7 +101,8 @@ function showCategory( urlObj, options, e ) {
 		var contentElem = $('<div data-role="main" class="ui-content"></div>');
 		for(var i=0; i<page.pics.length; i++ ){
 			var pic = page.pics[i];
-			contentElem.append('<img src="'+pic.src+'" class="content-item"/>');
+			Cache.appendPic( pic.src, contentElem, true );
+			//	contentElem.append('<img src="'+picSrc+'" class="content-item"/>');
 		}
 		
 		pageElem.append(header);
