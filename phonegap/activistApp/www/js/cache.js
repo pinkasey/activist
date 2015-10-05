@@ -70,15 +70,6 @@ var Cache = {
 			}			
 		}
 		
-		/* var cacheFileSuccess = function(img_src, file_entry){
-			console.log("successfully cached file "+img_src+", now appending it");
-			//if file is cached - add element with cached file
-			appendImg(parentElem, file_entry);
-		};
-		
-		var cacheFileFail = function(img_src, file_entry){
-			console.log("could not cache file "+img_src+", ignoring it");
-		}; */
 		
 		var appendImg = function(parentElem, img_src){
 			var target = $('<img src="'+img_src+'" class="content-item"/>');
@@ -100,11 +91,15 @@ var Cache = {
 }
 
 
-//init when doc is ready
-if (typeof(cordova) !== 'undefined') {
-	// cordova test
-	document.addEventListener('deviceready', Cache.init, false);
+$(document).ready( function(){
+	if (typeof(cordova) !== 'undefined') {
+		// cordova test
+		document.addEventListener('deviceready', Cache.init, false);
 } else {
 	// normal browser test
-	$(document).ready( Cache.init );
+	//$(document).ready( Cache.init );
+	Cache.init();
 }
+} );
+//init when doc is ready
+
