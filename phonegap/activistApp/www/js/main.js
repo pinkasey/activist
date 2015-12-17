@@ -1,13 +1,19 @@
 var pages = [
 	{"id" : "pageChicken", "title" : "Chicken", "icon" : "img/chicken/chicken-eating-grass.jpg",
 		"pics" : [ 
-			{ "src" : "img/chicken/chicken-growth.jpg", "detailsText" : "Little chick grows fast" },
-			{ "src" : "img/chicken/battery-cages.jpg", "detailsText" : "Battery cages are hell" }
+			{ "src" : "http://anonymous-pinkas.rhcloud.com/img/chicken/chicken-growth.jpg", "detailsText" : "Little chick grows fast" },
+			{ "src" : "http://anonymous-pinkas.rhcloud.com/badddddddImg.jpg", "detailsText" : "Little chick grows fast" },
+			{ "src" : "http://anonymous-pinkas.rhcloud.com/img/chicken/battery-cages.jpg", "detailsText" : "Battery cages are hell" }
 		]
 	},
 	{"id" : "pageCow","title" : "Cow", "icon" : "img/cow/pasture-cow.jpg",
 		"pics" : [
-			{ "src" : "img/cow/pasture-cow.jpg", "detailsText" : "Cow in nature" }
+			{ "src" : "http://anonymous-pinkas.rhcloud.com/img/cow/pasture-cow.jpg", "detailsText" : "Cow in nature" }
+		]
+	}, 
+	{"id" : "pagePuppy","title" : "Puppy", "icon" : "http://media.mydogspace.com.s3.amazonaws.com/wp-content/uploads/2013/08/puppy-500x350.jpg",
+		"pics" : [
+			{ "src" : "http://media.mydogspace.com.s3.amazonaws.com/wp-content/uploads/2013/08/puppy-500x350.jpg", "detailsText" : "This is a puppy" }
 		]
 	}, 
 	{"id" : "pagePig","title" : "pig", "icon" : "img/pig/pig-meadow.jpg",
@@ -91,16 +97,17 @@ function showCategory( urlObj, options, e ) {
 		header.append(navbar);
 		navbar.append(ul);
 		//var ul = navBar.children(0).children(0);
-		ul.append( $('<li></li>')).append( $('<a href="#'+page.prev.id+'" class="ui-btn-icon-left ui-icon-carat-l">'+page.prev.title+'</a>') );
-		ul.append( $('<li></li>')).append( $('<a href="index.html" class="ui-btn ui-icon-home ui-btn-icon-left">Home</a>') );	
-		ul.append( $('<li></li>')).append( $('<a href="#" class="ui-btn-icon-left ui-icon-search">Search</a>') );
-		ul.append( $('<li></li>')).append( $('<a href="#'+page.next.id+'" class="ui-btn-icon-right ui-icon-carat-r">'+page.next.title+'</a>') );
+		ul.append( $('<li><a href="#'+page.prev.id+'" class="ui-btn-icon-left ui-icon-carat-l">'+page.prev.title+'</a></li>') );
+		ul.append( $('<li><a href="index.html" class="ui-btn ui-icon-home ui-btn-icon-left">Home</a></li>') );	
+		ul.append( $('<li><a href="#" class="ui-btn-icon-left ui-icon-search">Search</a></li>') );
+		ul.append( $('<li><a href="#'+page.next.id+'" class="ui-btn-icon-right ui-icon-carat-r">'+page.next.title+'</a></li>') );
 		
 		//var contentElem = pageElem.children(0);
 		var contentElem = $('<div data-role="main" class="ui-content"></div>');
 		for(var i=0; i<page.pics.length; i++ ){
 			var pic = page.pics[i];
-			contentElem.append('<img src="'+pic.src+'" class="content-item"/>');
+			Cache.appendPic( pic.src, contentElem, true );
+			//	contentElem.append('<img src="'+picSrc+'" class="content-item"/>');
 		}
 		
 		pageElem.append(header);
