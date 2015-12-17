@@ -1,14 +1,14 @@
 var pages = [
 	{"id" : "pageChicken", "title" : "Chicken", "icon" : "img/chicken/chicken-eating-grass.jpg",
 		"pics" : [ 
-			{ "src" : "img/chicken/chicken-growth.jpg", "detailsText" : "Little chick grows fast" },
-			{ "src" : "badddddddImg.jpg", "detailsText" : "Little chick grows fast" },
-			{ "src" : "img/chicken/battery-cages.jpg", "detailsText" : "Battery cages are hell" }
+			{ "src" : "http://anonymous-pinkas.rhcloud.com/img/chicken/chicken-growth.jpg", "detailsText" : "Little chick grows fast" },
+			{ "src" : "http://anonymous-pinkas.rhcloud.com/badddddddImg.jpg", "detailsText" : "Little chick grows fast" },
+			{ "src" : "http://anonymous-pinkas.rhcloud.com/img/chicken/battery-cages.jpg", "detailsText" : "Battery cages are hell" }
 		]
 	},
 	{"id" : "pageCow","title" : "Cow", "icon" : "img/cow/pasture-cow.jpg",
 		"pics" : [
-			{ "src" : "img/cow/pasture-cow.jpg", "detailsText" : "Cow in nature" }
+			{ "src" : "http://anonymous-pinkas.rhcloud.com/img/cow/pasture-cow.jpg", "detailsText" : "Cow in nature" }
 		]
 	}, 
 	{"id" : "pagePuppy","title" : "Puppy", "icon" : "http://media.mydogspace.com.s3.amazonaws.com/wp-content/uploads/2013/08/puppy-500x350.jpg",
