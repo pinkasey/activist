@@ -256,7 +256,7 @@ public class FileTransfer extends CordovaPlugin {
         } catch (ClassCastException e) {
         }
 
-        if (!gotCookie) {
+        if (!gotCookie && CookieManager.getInstance() != null) {
             cookie = CookieManager.getInstance().getCookie(target);
         }
 
@@ -1011,7 +1011,11 @@ public class FileTransfer extends CordovaPlugin {
                         context.sendPluginResult(new PluginResult(PluginResult.Status.ERROR, error));
                         context.aborted = true;
                         if (context.connection != null) {
-                            context.connection.disconnect();
+                            try {
+                                context.connection.disconnect();
+                            } catch (Exception e) {
+                                Log.e(LOG_TAG, "CB-8431 Catch workaround for fatal exception", e);
+                            }
                         }
                     }
                 }

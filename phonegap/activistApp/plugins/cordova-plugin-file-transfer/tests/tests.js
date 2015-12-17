@@ -32,8 +32,8 @@ exports.defineAutoTests = function () {
     var DEFAULT_FILESYSTEM_SIZE = 1024*50; //filesystem size in bytes
     var UNKNOWN_HOST = "http://foobar.apache.org";
     var HEADERS_ECHO = "http://whatheaders.com"; // NOTE: this site is very useful!
-    var DOWNLOAD_TIMEOUT = 2 * 60 * 1000; // download tests sometimes need a higher timeout to complete successfully
-    var UPLOAD_TIMEOUT = 2 * 60 * 1000; // upload tests sometimes need a higher timeout to complete successfully
+    var DOWNLOAD_TIMEOUT = 30 * 1000; // download tests sometimes need a higher timeout to complete successfully
+    var UPLOAD_TIMEOUT = 30 * 1000; // upload tests sometimes need a higher timeout to complete successfully
     var ABORT_DELAY = 100; // for abort() tests
 
     // config for upload test server
@@ -45,7 +45,6 @@ exports.defineAutoTests = function () {
     // flags
     var isWindows = cordova.platformId === 'windows8' || cordova.platformId === 'windows';
     var isWP8 = cordova.platformId === 'windowsphone';
-
     var isBrowser = cordova.platformId === 'browser';
     var isIE = isBrowser && navigator.userAgent.indexOf('Trident') >= 0;
 
@@ -176,7 +175,8 @@ exports.defineAutoTests = function () {
                 if (isIE) {
                     expect(event.total).toBe(Math.pow(2, 64));
                 } else {
-                    expect(event.total).toBe(0);
+                    // iOS returns -1, and other platforms return 0
+                    expect(event.total).toBeLessThan(1);
                 }
             }
         };
@@ -502,6 +502,13 @@ exports.defineAutoTests = function () {
                         expect(error.http_status).not.toBe(401, "Ensure " + fileURL + " is in the white list");
                         expect(error.http_status).toBe(404);
 
+                        // wp8 does not make difference between 404 and unknown host
+                        if (isWP8) {
+                            expect(error.code).toBe(FileTransferError.CONNECTION_ERR);
+                        } else {
+                            expect(error.code).toBe(FileTransferError.FILE_NOT_FOUND_ERR);
+                        }
+
                         done();
                     };
 
@@ -556,7 +563,7 @@ exports.defineAutoTests = function () {
                     transfer.onprogress = function () {};
 
                     transfer.download(fileURL, localFilePath, unexpectedCallbacks.httpWin, downloadFail);
-                }, 30000);
+                }, DOWNLOAD_TIMEOUT);
 
                 it("filetransfer.spec.16 should handle bad file path", function (done) {
                     var fileURL = SERVER;
@@ -643,6 +650,30 @@ exports.defineAutoTests = function () {
                         transfer.download(fileURL, localPath, downloadWin, unexpectedCallbacks.httpFail);
                     }, unsupported, 'File', '_getLocalFilesystemPath', [internalFilePath]);
                 });
+
+                it('filetransfer.spec.31 should properly handle 304', function (done) {
+
+                    if(isWP8) {
+                        pending();
+                        return;
+                    }
+
+                    var imageURL = "http://apache.org/images/feather-small.gif";
+                    var lastModified = new Date();
+
+                    var downloadFail = function (error) {
+                        expect(error.http_status).toBe(304);
+                        expect(error.code).toBe(FileTransferError.NOT_MODIFIED_ERR);
+                        done();
+                    };
+
+                    transfer.download(imageURL, localFilePath, unexpectedCallbacks.httpWin, downloadFail, null,
+                        {
+                            headers: {
+                                'If-Modified-Since': lastModified.toUTCString()
+                            }
+                        });
+                }, DOWNLOAD_TIMEOUT);
             });
 
             describe('upload', function() {
@@ -805,7 +836,7 @@ exports.defineAutoTests = function () {
                     };
 
                     transfer.upload(localFilePath, fileURL, unexpectedCallbacks.httpWin, uploadFail, {});
-                }, 30000); // unknown host may need quite some time on some devices
+                }, UPLOAD_TIMEOUT);
 
                 it("filetransfer.spec.25 should handle missing file", function (done) {
 
@@ -833,10 +864,6 @@ exports.defineAutoTests = function () {
                 });
 
                 it("filetransfer.spec.27 should be able to set custom headers", function (done) {
-
-                    if (cordova.platformId === 'windowsphone') {
-                        pending();
-                    }
 
                     var fileURL = HEADERS_ECHO;
 
@@ -891,6 +918,33 @@ exports.defineAutoTests = function () {
                     cordova.exec(function (localPath) {
                         transfer.upload(localPath, fileURL, uploadWin, unexpectedCallbacks.httpFail, uploadOptions);
                     }, unsupported, 'File', '_getLocalFilesystemPath', [internalFilePath]);
+                }, UPLOAD_TIMEOUT);
+
+                it("filetransfer.spec.31 should be able to upload a file using PUT method", function (done) {
+
+                    var fileURL = SERVER + '/upload';
+
+                    var uploadWin = function (uploadResult) {
+
+                        verifyUpload(uploadResult);
+
+                        if (cordova.platformId === 'ios') {
+                            expect(uploadResult.headers).toBeDefined('Expected headers to be defined.');
+                            expect(uploadResult.headers['Content-Type']).toBeDefined('Expected content-type header to be defined.');
+                        }
+
+                        done();
+                    };
+
+                    var uploadOptionsPut        = new FileUploadOptions();
+                    uploadOptionsPut.fileKey    = "file";
+                    uploadOptionsPut.fileName   = fileName;
+                    uploadOptionsPut.mimeType   = "text/plain";
+                    uploadOptionsPut.params     = uploadParams;
+                    uploadOptionsPut.httpMethod = "PUT";
+
+                    // NOTE: removing uploadOptions cause Android to timeout
+                    transfer.upload(localFilePath, fileURL, uploadWin, unexpectedCallbacks.httpFail, uploadOptionsPut);
                 }, UPLOAD_TIMEOUT);
             });
         });
